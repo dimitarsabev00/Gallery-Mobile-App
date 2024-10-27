@@ -1,1 +1,1 @@
-# Gallery-Mobile-App
+# Gallery Mobile App
