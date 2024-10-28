@@ -12,12 +12,27 @@ import {
 
 import { photos } from "../helpers/photos";
 import { Carousel } from "../components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "expo-router";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 export default function App() {
   const { height, width } = useWindowDimensions();
   const [headerCarouselPage, setHeaderCarouselPage] = useState(0);
+
+  const scale = useSharedValue(1.2);
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  useEffect(() => {
+    scale.value = 1.2;
+    scale.value = withTiming(1, { duration: 6000 });
+  }, [headerCarouselPage]);
 
   const onHeaderCarouselScroll = (
     e: NativeSyntheticEvent<NativeScrollEvent>
@@ -61,16 +76,32 @@ export default function App() {
             </Link>
           )}
         />
-        <Image
-          source={photos[0].image}
-          style={{ width, height: "100%" }}
-          resizeMode="cover"
-        />
-        <Image
-          source={photos[10].image}
-          style={{ width, height: "100%" }}
-          resizeMode="cover"
-        />
+        <View style={{ width, height: "100%", overflow: "hidden" }}>
+          <Animated.Image
+            source={photos[0].image}
+            style={[
+              {
+                width: width,
+                height: "100%",
+              },
+              animatedStyle,
+            ]}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={{ width, height: "100%", overflow: "hidden" }}>
+          <Animated.Image
+            source={photos[10].image}
+            style={[
+              {
+                width: width,
+                height: "100%",
+              },
+              animatedStyle,
+            ]}
+            resizeMode="cover"
+          />
+        </View>
       </ScrollView>
 
       <View
