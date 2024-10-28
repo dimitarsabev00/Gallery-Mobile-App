@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import { FlatList, Image, SafeAreaView, StyleSheet } from "react-native";
 
 import { photos } from "./helpers/photos";
@@ -18,7 +17,6 @@ export default function App() {
           />
         )}
       />
-      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
