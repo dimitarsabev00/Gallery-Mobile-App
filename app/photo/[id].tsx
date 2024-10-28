@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useEffect } from "react";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 export default function PhotoScreen() {
@@ -16,9 +17,11 @@ export default function PhotoScreen() {
   const photo = photos.find((p) => p.id === Number.parseInt(id));
 
   const scale = useSharedValue(1);
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
+
   const gesture = Gesture.Pinch()
     .onChange((e) => {
       scale.value = e.scale;
@@ -34,6 +37,7 @@ export default function PhotoScreen() {
   if (!photo) {
     return <Text>Photo not found</Text>;
   }
+
   return (
     <GestureDetector gesture={gesture}>
       <Animated.Image
